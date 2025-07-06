@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import "./Navbar.css"
+import { Link,useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -7,8 +9,11 @@ const Navbar = () => {
             <div className='navTitle'>
                 To Do Board
             </div>
-            <div>
-                Home
+            <div className='homeNav'>
+                <Link to="/">Home</Link>
+            </div>
+            <div className='homeLogin'>
+                <Link to="login"> Login </Link>
             </div>
         </div>
     </div>

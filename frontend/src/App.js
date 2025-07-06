@@ -7,6 +7,7 @@ import Login from "./Login/Login"
 import Register from "./Register/Register"
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
+import Navbar from './Navbar/Navbar';
 
 function App() {
   const [userLoggedin, setUserLoggedin] = useState(false);
@@ -14,12 +15,14 @@ function App() {
 
   return (
     <div className="App">
+       <Navbar />
        <Routes>
           <Route path='/' element={userLoggedin ? <Dashboard /> : <Home  />} />
+          <Route path='/dashboard' element={<Dashboard />} ></Route>
           <Route path='/profile' element={<Profile />} ></Route>
           <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path="*" element={<Navigate to='/' />} />
+          <Route path='/login' element={<Login setUserLoggedin={setUserLoggedin}/>} />
+          
        </Routes>
     </div>
   );

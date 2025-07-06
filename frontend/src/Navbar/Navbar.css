@@ -1,0 +1,35 @@
+.navBarComponent{
+    background-color: #4f7c82;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    position: sticky;
+}
+.navBarMainComponent{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  width:90%;
+}
+.navTitle{
+    font-size: 24px;
+    font-weight: bold;
+  margin-left: 20px;
+}
+.homeNav{
+    margin-right: 20px;
+}
+.homeNav a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+.homeLogin a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
