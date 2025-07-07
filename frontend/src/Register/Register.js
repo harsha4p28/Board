@@ -40,7 +40,7 @@ const navigate = useNavigate();
     }
 
     try {
-      const res = await fetch("https://746408f2-c5d2-4fcf-a699-4dd566cc803b-00-3kik54hmfg6tv.sisko.replit.dev:5000/register", {
+      const res = await fetch("http://localhost:5000/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

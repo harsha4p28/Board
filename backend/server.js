@@ -19,6 +19,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
 const MONGO_URI = process.env.MONGO_URI;
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173','https://746408f2-c5d2-4fcf-a699-4dd566cc803b-00-3kik54hmfg6tv.sisko.replit.dev:3000'];
 
@@ -100,11 +102,58 @@ app.post('/login',async (req,res)=>{
         if(!isPasswordValid){
             return res.status(400).json({message: 'Invalid username or password'});
         }
-        req.session.userId = user._id;
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "2h" });
+            res.cookie("token", token, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? 'None' : 'Lax',
+            maxAge: 2 * 60 * 60 * 1000,
+        });
+        // req.session.userId = user._id;
         res.status(200).json({message: 'Login successful'});
         console.log('Login successful');
     }catch(error){
         console.error('Error logging in:', error);
+    }
+})
+
+app.get('/me',async (req,res)=>{
+    try{
+        console.log("Cookies received:", req.cookies);
+        const token = req.cookies.token;
+        if (!token) {
+            // console.log("No token cookie found");
+            return res.status(401).json({ message: "unauthorized" });
+        }
+        const decoded=jwt.verify(token,JWT_SECRET);
+        const user=await User.findById(decoded.userId).select("-password")
+        if(!user) return res.status(404).json({message:"User not found"});
+        res.json({user:user});
+    }catch(error){
+        console.error("Error: "+ error)
+        res.status(401).json({message:"Unauthorized"});
+
+    }
+});
+
+app.get('/refresh', async (req,res)=>{
+    try{
+        const token=req.cookies.token;
+        if(!token) return res.status(401).json({message:"unauthorized"});
+        const decoded=jwt.verify(token,JWT_SECRET);
+        const user=await User.findById(decoded.userId).select("-password")
+        if(!user) return res.status(404).json({message:"User not found"});
+        const newToken = jwt.sign({userId:user._id},JWT_SECRET,{expiresIn:"2h"});
+        res.cookie("token",newToken,{
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? 'None' : 'Lax',
+            maxAge: 24 * 60 * 60 * 1000, 
+        });
+        res.json({success:"Token refreshed successfully"});
+    }catch(error){
+        console.error("Refresh Token Error: "+ error)
+        res.status(401).json({message:"Unauthorized"});
     }
 })
 app.listen(PORT, () => {
