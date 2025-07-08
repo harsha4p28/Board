@@ -22,7 +22,7 @@ const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173','https://746408f2-c5d2-4fcf-a699-4dd566cc803b-00-3kik54hmfg6tv.sisko.replit.dev:3000'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173','https://31ec9935-6b8d-464c-84b7-ee91541cce62-00-2okr80w4xnq04.pike.replit.dev:3000'];
 
 
 mongoose.connect(MONGO_URI, {
@@ -122,7 +122,6 @@ app.get('/me',async (req,res)=>{
         console.log("Cookies received:", req.cookies);
         const token = req.cookies.token;
         if (!token) {
-            // console.log("No token cookie found");
             return res.status(401).json({ message: "unauthorized" });
         }
         const decoded=jwt.verify(token,JWT_SECRET);
@@ -156,6 +155,29 @@ app.get('/refresh', async (req,res)=>{
         res.status(401).json({message:"Unauthorized"});
     }
 })
+
+app.get('/addTask', async (req,res)=>{
+    try{
+        const token=req.cookies.token;
+        if(!token) return res.status(401).json({message:"unauthorized"});
+        const {title,description,priority}=req.body;
+        const decoded=jwt.verify(token,JWT_SECRET);
+        const user=await User.findById(decoded.userId).select("-password")
+        if(!user) return res.status(404).json({message:"User not found"});
+        const newTask=new Task({
+            title,
+            description,
+            priority,
+            user:user._id,
+        });
+        await newTask.save();
+        res.status(201).json({message:"Task created successfully"});
+        console.log("Task created successfully");
+    }catch(error){
+        console.error("Error: "+ error)
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

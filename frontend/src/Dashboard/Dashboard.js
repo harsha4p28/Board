@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './Dashboard.css';
+import { useNavigate } from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
@@ -13,16 +15,23 @@ import {
 } from '@dnd-kit/sortable';
 import TaskCard from '../Taskcard/Taskcard';
 import Column from '../Column/Column';
-import './Dashboard.css';
+import TaskForm from '../TaskForm/TaskForm';
+
 
 const columns = ['Todo', 'In Progress', 'Done'];
 
 export default function Dashboard() {
+
+  const navigate=useNavigate();
   const [tasks, setTasks] = useState([
     { _id: '1', title: 'Design UI', description: 'Make wireframes', status: 'Todo' },
     { _id: '2', title: 'Build Auth', description: 'JWT + bcrypt', status: 'In Progress' },
     { _id: '3', title: 'Deploy App', description: 'Vercel + Render', status: 'Done' },
   ]);
+
+  const handleForm = () =>{
+    <TaskForm tasks={tasks} setTasks={setTasks}/>
+  }
 
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -61,6 +70,9 @@ export default function Dashboard() {
             </Column>
           ))}
         </DndContext>
+      </div>
+      <div className="add-task">
+        <button className="add-task-button" onclick={handleForm} >+ Add Task</button>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const navigate = useNavigate();
     }
 
     try {
-      const res = await fetch("http://localhost:5000/register", {
+      const res = await fetch("https://31ec9935-6b8d-464c-84b7-ee91541cce62-00-2okr80w4xnq04.pike.replit.dev:5000/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

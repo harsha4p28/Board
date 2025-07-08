@@ -8,6 +8,7 @@ import Register from "./Register/Register";
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navbar from './Navbar/Navbar';
+import TaskForm from './TaskForm/TaskForm';
 
 function App() {
   const [userLoggedin, setUserLoggedin] = useState(false);
@@ -17,7 +18,7 @@ function App() {
     const handleUser = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:5000/me", {
+        const res = await fetch("https://31ec9935-6b8d-464c-84b7-ee91541cce62-00-2okr80w4xnq04.pike.replit.dev:5000/me", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: 'include'
@@ -27,7 +28,7 @@ function App() {
           const data = await res.json();
           setUserLoggedin(true);
         } else if (res.status === 401) {
-          const refreshRes = await fetch("http://localhost:5000/refresh", {
+          const refreshRes = await fetch("https://31ec9935-6b8d-464c-84b7-ee91541cce62-00-2okr80w4xnq04.pike.replit.dev:5000/refresh", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: 'include'
@@ -62,6 +63,7 @@ function App() {
       <Routes>
         <Route path='/' element={userLoggedin ? <Dashboard /> : <Home />} />
         <Route path='/dashboard' element={userLoggedin ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path='/addTask' element={<TaskForm />} />
         <Route path='/profile' element={userLoggedin ? <Profile /> : <Navigate to="/login" />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login setUserLoggedin={setUserLoggedin} />} />
