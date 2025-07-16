@@ -119,7 +119,7 @@ app.post('/login',async (req,res)=>{
 
 app.get('/me',async (req,res)=>{
     try{
-        console.log("Cookies received:", req.cookies);
+        //console.log("Cookies received:", req.cookies);
         const token = req.cookies.token;
         if (!token) {
             return res.status(401).json({ message: "unauthorized" });
@@ -174,7 +174,7 @@ app.get('/addTask', async (req,res)=>{
         res.status(201).json({message:"Task created successfully"});
         console.log("Task created successfully");
     }catch(error){
-        console.error("Error: "+ error)
+        console.log("Error: "+ error)
     }
 });
 

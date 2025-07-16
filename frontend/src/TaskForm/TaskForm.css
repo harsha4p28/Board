@@ -1,0 +1,104 @@
+/* TaskForm.css */
+
+.TaskFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+}
+
+.TaskFormMainContainer {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 90%;
+}
+
+.TaskFormMainContainer h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.TaskFormMainContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.TaskFormMainContainer label {
+  font-weight: 500;
+  color: #555;
+}
+
+.TaskFormMainContainer input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.TaskFormMainContainer input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Buttons styling */
+
+.TaskFormMainContainer button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #fff;
+}
+
+/* Specific buttons */
+
+.addButton {
+  background-color: #28a745;
+}
+
+.addButton:hover {
+  background-color: #218838;
+}
+
+.updateButton {
+  background-color: #007bff;
+}
+
+.updateButton:hover {
+  background-color: #0069d9;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+.closeButton {
+  background-color: #6c757d;
+}
+
+.closeButton:hover {
+  background-color: #5a6268;
+}
+
+.cancelButton {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #e0a800;
+}

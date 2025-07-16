@@ -30,7 +30,7 @@ export default function Dashboard() {
   ]);
 
   const handleForm = () =>{
-    <TaskForm tasks={tasks} setTasks={setTasks}/>
+    navigate('/addTask');
   }
 
   const sensors = useSensors(useSensor(PointerSensor));
@@ -72,7 +72,7 @@ export default function Dashboard() {
         </DndContext>
       </div>
       <div className="add-task">
-        <button className="add-task-button" onclick={handleForm} >+ Add Task</button>
+        <button className="add-task-button" onClick={handleForm} >+ Add Task</button>
       </div>
     </div>
   );
