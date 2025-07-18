@@ -8,12 +8,23 @@ const TaskForm = ({tasks,setTasks}) => {
     description:"",
     priority:"",
   });
+  const [success , setSuccess]=useState(false);
+  const [error,setError]=useState(false);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleAddTask = async (e) => {
     e.preventDefault();
+
+    if(!formData.title || !formData.description || !formData.priority){
+      setError(true)
+      setTimeout(()=>{
+        setError(false);
+      },3000);
+      
+      return;
+    }
     try{
       const res=await fetch("https://31ec9935-6b8d-464c-84b7-ee91541cce62-00-2okr80w4xnq04.pike.replit.dev:5000/addTask",{
         method:"POST",
@@ -23,7 +34,15 @@ const TaskForm = ({tasks,setTasks}) => {
       })
       const data=await res.json();
       if(res.ok){
-        setTasks([...tasks,data]);
+        setSuccess(true);
+        setTimeout(()=>{
+          setSuccess(false);
+        },3000);
+        setFormData({
+          title:"",
+          description:"",
+          priority:"",
+        });
       }else{
         console.error("Error adding task:",data.message);
       }
@@ -45,9 +64,11 @@ const TaskForm = ({tasks,setTasks}) => {
             <label htmlFor="priority">Priority:</label>
             <input id="priority" type="number" name="priority" placeholder="Enter your Task Priority" value={formData.priority} onChange ={handleChange} required/>
           </form>
-          <button className='closeButton'>Close</button>
+          {/* <button className='closeButton'>Close</button>
           <button className='deleteButton'>Delete</button>
-          <button className='updateButton'>Update</button>
+          <button className='updateButton'>Update</button> */}
+          {error && <h2>All fields required</h2>}
+          {success && <h2>Task Added successfully</h2>}
           <button className='addButton' onClick={handleAddTask}>Add</button>
           <button className='cancelButton'>Cancel</button>
       </div>

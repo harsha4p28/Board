@@ -12,6 +12,18 @@ const taskSchema=new mongoose.Schema({
     priority:{
         type:Number
     },
+    status:{
+        type:String,
+        enum:["ToDo","In Progress","Completed"],
+        default:"ToDo"
+    },
+    date:{
+        type:Date,
+        default:Date.now
+    },
+    authorname:{
+        type:String        
+    },
     user:[
         {
             type:mongoose.Schema.Types.ObjectId,

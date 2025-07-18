@@ -45,6 +45,7 @@
 .TaskFormMainContainer input:focus {
   border-color: #007bff;
   outline: none;
+  margin: 10px;
 }
 
 /* Buttons styling */
@@ -55,6 +56,7 @@
   border-radius: 8px;
   margin-top: 12px;
   font-size: 14px;
+  margin: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
   color: #fff;
@@ -95,10 +97,10 @@
 }
 
 .cancelButton {
-  background-color: #ffc107;
+  background-color: #dc3545;;
   color: #333;
 }
 
 .cancelButton:hover {
-  background-color: #e0a800;
+  background-color: #c82333;
 }

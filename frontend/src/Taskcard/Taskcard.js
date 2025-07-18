@@ -14,8 +14,10 @@ export default function TaskCard({ task }) {
 
   return (
     <div className="task-card" ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <h4>{task.title}</h4>
+      <h3>{task.title}</h3>
+      <h4>{task.authorname}</h4>
       <p>{task.description}</p>
+      <h4>Priority:{task.priority}</h4>
     </div>
   );
 }

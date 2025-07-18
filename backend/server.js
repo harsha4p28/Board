@@ -156,7 +156,7 @@ app.get('/refresh', async (req,res)=>{
     }
 })
 
-app.get('/addTask', async (req,res)=>{
+app.post('/addTask', async (req,res)=>{
     try{
         const token=req.cookies.token;
         if(!token) return res.status(401).json({message:"unauthorized"});
@@ -168,13 +168,35 @@ app.get('/addTask', async (req,res)=>{
             title,
             description,
             priority,
+            authorname:user.username,
             user:user._id,
         });
         await newTask.save();
+
+        user.tasks.push(newTask._id);
+        await user.save();
+
         res.status(201).json({message:"Task created successfully"});
         console.log("Task created successfully");
     }catch(error){
         console.log("Error: "+ error)
+    }
+});
+
+app.get('/getTasks', async (req,res)=>{
+    try{
+        const token=req.cookies.token;
+        if(!token) return res.status(401).json({message:"unauthorized"});
+        const decoded=jwt.verify(token,JWT_SECRET);
+        
+        const userWithTasks = await User.findById(decoded.userId)
+            .select("-password")
+            .populate('tasks');
+        if (!userWithTasks) return res.status(404).json({ message: "User not found" });
+        res.status(200).json({ tasks: userWithTasks.tasks });
+    }catch(error){
+        console.error("Error fetching tasks via user:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 });
 
