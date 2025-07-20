@@ -189,11 +189,13 @@ app.get('/getTasks', async (req,res)=>{
         if(!token) return res.status(401).json({message:"unauthorized"});
         const decoded=jwt.verify(token,JWT_SECRET);
         
-        const userWithTasks = await User.findById(decoded.userId)
-            .select("-password")
-            .populate('tasks');
-        if (!userWithTasks) return res.status(404).json({ message: "User not found" });
-        res.status(200).json({ tasks: userWithTasks.tasks });
+        //const userWithTasks = await User.findById(decoded.userId)
+        //    .select("-password")
+        //    .populate('tasks');
+        //if (!userWithTasks) return res.status(404).json({ message: "User not found" });
+        const allTasks=await Task.find({});
+        res.status(200).json({ tasks: allTasks });
+        //res.status(200).json({ tasks: userWithTasks.tasks });
     }catch(error){
         console.error("Error fetching tasks via user:", error);
         res.status(500).json({ message: "Internal server error" });
